@@ -4,3 +4,9 @@ bin/
 gen/
 libs/
 local.properties
+
+*.class
+.project
+.classpath
+.settings/
+
