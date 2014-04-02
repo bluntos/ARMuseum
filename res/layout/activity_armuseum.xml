@@ -1,29 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/scan_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/scan" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/scan_format"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/scan_button"
-        android:layout_centerHorizontal="true"
-        android:textIsSelectable="true" />
+        <Button
+            android:id="@+id/scan_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/scan" />
 
-    <TextView
-        android:id="@+id/scan_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/scan_format"
-        android:layout_centerHorizontal="true"
-        android:textIsSelectable="true" />
+        <TextView
+            android:id="@+id/scan_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scan_button"
+            android:layout_centerHorizontal="true"
+            android:textIsSelectable="true" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/scan_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scan_format"
+            android:layout_centerHorizontal="true"
+            android:textIsSelectable="true" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" 
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash"  />
+
+</FrameLayout>
