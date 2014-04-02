@@ -7,6 +7,13 @@
     
     <string name="scan">Scan</string>
     
-   
+   <string-array name="menu_array">
+        <item>Home</item>
+        <item>Scan</item>
+        <item>Favorite</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>
