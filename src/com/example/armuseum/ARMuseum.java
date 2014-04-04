@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class ARMuseum extends Activity implements OnClickListener {
+	
+	static final String LOGTAG = "ARMuseum";
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -45,6 +48,9 @@ public class ARMuseum extends Activity implements OnClickListener {
 	private ImageView mSplashScreen = null;
 	
 	
+	//Add by Lei Wang for AR Scan View
+	private Button arScanBtn;
+	
 	private ScheduledExecutorService scheduleTaskExecutor;
 
 	@Override
@@ -53,7 +59,7 @@ public class ARMuseum extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_main);
 
 		
-		
+		Log.d(LOGTAG, "onCreate");
 		
 		mTitle = mDrawerTitle = getTitle();
 		mMenuTitles = getResources().getStringArray(R.array.menu_array);
@@ -100,8 +106,12 @@ public class ARMuseum extends Activity implements OnClickListener {
 		formatTxt = (TextView) findViewById(R.id.scan_format);
 		contentTxt = (TextView) findViewById(R.id.scan_content);
 		
+		arScanBtn = (Button) findViewById(R.id.ar_button);
+//		arScanBtn.setOnClickListener(this);
+		
 		mSplashScreen = (ImageView)findViewById(R.id.imageSplash);
 		
+		Log.d(LOGTAG, "Leaving onCreate");
 		scheduleTaskExecutor = Executors.newSingleThreadScheduledExecutor();
 		scheduleTaskExecutor.schedule(new DismissSplash(this), 5, TimeUnit.SECONDS);
 	}
@@ -131,13 +141,14 @@ public class ARMuseum extends Activity implements OnClickListener {
 	
 	public void onSplashDone()
 	{
+		Log.d(LOGTAG, "onSplashDone");
 		mSplashScreen.setVisibility(View.GONE);
 		
 		// scanBtn.setOnClickListener(this);
 				
 	}
 
-	 
+	
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -159,13 +170,23 @@ public class ARMuseum extends Activity implements OnClickListener {
 			toast.show();
 		}
 	}
-
-	@Override
+	
+    @Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.scan_button) {
-			// scan
-			IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-			scanIntegrator.initiateScan();
+		
+		switch (v.getId()) {
+			case R.id.scan_button:
+				// scan
+				Log.d(LOGTAG, "scan_button pressed");
+				IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+				scanIntegrator.initiateScan();
+				break;
+				
+			case R.id.ar_button:
+				// start activity to AR scan and play video
+				Log.d(LOGTAG, "ar_button pressed");
+				//startARActivity();
+				break;
 		}
 
 	}
@@ -241,6 +262,17 @@ public class ARMuseum extends Activity implements OnClickListener {
             // Empty constructor required for fragment subclasses
         }
 
+    	// Starts the AR Scan activity
+        private void startARActivity()
+        {
+            Intent itent = new Intent();
+            
+            itent.setClassName("com.qualcomm.vuforia.samples.VideoPlayback.app.", "VideoPlayback");
+            
+            startActivity(itent);
+        }
+        
+        
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
@@ -249,8 +281,14 @@ public class ARMuseum extends Activity implements OnClickListener {
             String menu = getResources().getStringArray(R.array.menu_array)[i];
 
             if(i == 1 ){
+            	Log.d(LOGTAG, "scan_button selected");
             	IntentIntegrator scanIntegrator = new IntentIntegrator(this);
 				scanIntegrator.initiateScan();
+            }
+            
+            if(i == 2 ){
+            	Log.d(LOGTAG, "AR scan_button selected");
+            	startARActivity();
             }
             
             getActivity().setTitle(menu);
